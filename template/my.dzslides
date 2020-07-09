@@ -195,7 +195,7 @@ $endfor$
 <body>
    <header class="panel">
       <p class="description">
-         Practical git by $author$
+         "Git good" by $author$
          <p>
          $title$
          </p>

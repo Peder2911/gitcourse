@@ -1,11 +1,6 @@
 set -e   
 echo Building...👷
-
-makeHeader() 
-{
-   echo "% $*\n% Peder G. Landsverk\n% $(date --iso-8601)
-   "
-}
+echo $*
 
 titleCase()
 {
@@ -20,13 +15,15 @@ fixTitle()
 for f in src/*
    do
       name="$(echo $f | cut -f 2 -d '/' | cut -f 1 -d '.')"
-      out="build/$name.htm"
+      out="build/$name.html"
       title="$(fixTitle $name)"
 
       echo "$f -> $out"
-      echo "$(makeHeader $title)" | cat - $f |\
-         pandoc -t dzslides -o "$out" \
-         --self-contained \
-         --template "template/my.dzslides"
+      pandoc -s $f -t dzslides -o "$out"\
+         --self-contained\
+         --template "template/my.dzslides"\
+         --metadata title="$title"\
+         --metadata date="$(date --iso-8601)"\
+         --metadata author="Peder G. Landsverk"
    done
 echo Done!🎉
