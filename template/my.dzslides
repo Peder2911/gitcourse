@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<head$if(lang)$ lang="$lang$"$endif$$if(dir)$ dir="$dir$"$endif$>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+$for(author-meta)$
+  <meta name="author" content="$author-meta$">
+$endfor$
+$if(date-meta)$
+  <meta name="dcterms.date" content="$date-meta$">
+$endif$
+$if(keywords)$
+  <meta name="keywords" content="$for(keywords)$$keywords$$sep$, $endfor$">
+$endif$
+  <title>$if(title-prefix)$$title-prefix$ – $endif$$pagetitle$</title>
+  <style>
+    $styles.html()$
+  </style>
+$if(css)$
+$for(css)$
+  <link rel="stylesheet" href="$css$">
+$endfor$
+$else$
+<link href="https://fonts.googleapis.com/css2?family=Raleway&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
+
+
+<style>
+   /* A section is a slide. It's size is 800x600, and this will never change */
+   /* Before */
+   section { left: -150%; }
+   /* Now */
+   section[aria-selected] { left: 0; }
+   /* After */
+   section[aria-selected] ~ section { left: +150%; }
+
+   /* Incremental elements */
+
+   /* By default, visible */
+   .incremental > * { opacity: 1; }
+
+   /* The current item */
+   .incremental > *[aria-selected] { opacity: 1; }
+
+   /* The items to-be-selected */
+   .incremental > *[aria-selected] ~ * { opacity: 0; }
+</style>
+
+<style>
+   * {
+      font-size: 20px;
+      line-height: 35px;
+   }
+
+   /* Headers */
+   h1,h2,h3,h4,h5 {
+      margin: 20px 0px;
+      padding: 10px 0;
+   }
+   h1 {
+      display: block;
+      text-align: center;
+      font-size: 80px;
+      line-height: 160px;
+   }
+   h2 {
+      font-size: 50px;
+      line-height: 50px;
+   }
+   h3 {
+      font-size: 38px;
+   }
+
+   section>*:not(:first-child){
+      margin-left: 24px;
+   }
+   /* Lists */
+   ul {
+      margin-bottom: 20px;
+   }
+
+   li {
+      list-style-type: none;
+      font-size: 30px;
+      line-height: 50px;
+   }
+   li::before {
+      content: "· ";
+   }
+   li>ul>li{
+      margin-left: 50px;
+      font-size: 25px;
+      line-height: 40px;
+   }
+
+   /* Sections */
+   section {
+      padding: 80px 150px; 
+   }
+
+   * {
+      font-family: 'Raleway', 'sans-serif';
+   }
+
+   body, .view section {
+      background-color: #F0EFE7;
+   }
+   html, .view body { 
+      background-color: black; counter-reset: slideidx; 
+   }
+
+   header {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      width: 100%;
+      /*height: 30px;*/
+      padding: 4px 0;
+      position: absolute;
+      background-color: #F14E32;
+   }
+   header>p{
+      width: 100%;
+      padding: 0 50px;
+      font-size: 15px;
+      line-height: 15px;
+      margin: auto;
+   }
+   header>p:nth-child(even){
+      text-align: right;
+   }
+   header>p:nth-child(odd){
+      text-align: left;
+   }
+   
+   code {
+      white-space: pre-line;
+      display: block;
+
+      font-family: 'Roboto Mono', monospace;
+      font-size: 14px;
+      line-height: 20px;
+      color: #f0f0f0;
+
+      margin: 10px 0;
+
+      background: #484242;
+      padding: 15px 20px 30px 20px;
+      border-radius: 8px;
+   }
+
+   term,description,info {
+      display: block;
+      margin: 10px 0;
+
+      font-size: 18px;
+      background: #dfdfdf;
+      padding: 3px 20px 3px 8px; 
+      border-radius: 10px;
+   }
+
+   description,term,info {
+      line-height: 18px;
+      font-size: 15px;
+      padding-bottom: 8px;
+   }
+
+   term>h{
+      display: block;
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 8px;
+   }
+
+   term>h::before{
+      content:"📖 ";
+   }
+
+   info::before{
+      content:"🤓 ";
+   }
+
+   description::before{
+      content: "📝 ";
+   }
+
+</style>
+
+$endif$
+$if(math)$
+  $math$
+$endif$
+$for(header-includes)$
+  $header-includes$
+$endfor$
+</head>
+<body>
+   <header class="panel">
+      <p class="description">
+         Practical git by $author$
+         <p>
+         $title$
+         </p>
+
+      </p>
+      <p class="wm">Built $date$</p>
+   </header>
+
+   $if(title)$
+      <section class="title">
+        <h1 class="title">$title$</h1>
+
+      $if(subtitle)$
+           <h1 class="subtitle">$subtitle$</h1>
+      $endif$
+      </section>
+   $endif$
+
+   $if(toc)$
+      <section id="$idprefix$TOC">
+      $table-of-contents$
+      </section>
+   $endif$
+
+   $for(include-before)$
+   $include-before$
+   $endfor$
+
+   $body$
+
+   $for(include-after)$
+   $include-after$
+   $endfor$
+
+   $dzslides-core$
+</body>
+</html>
