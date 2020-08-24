@@ -47,7 +47,7 @@ $else$
 
 <style>
    * {
-      font-size: 20px;
+      font-size: 22px;
       line-height: 35px;
    }
 
@@ -80,8 +80,8 @@ $else$
 
    li {
       list-style-type: none;
-      font-size: 30px;
       line-height: 50px;
+      /*font-size: 24px;*/
    }
    li::before {
       content: "· ";
@@ -94,7 +94,7 @@ $else$
 
    /* Sections */
    section {
-      padding: 80px 150px; 
+      padding: 40px 80px 80px 120px; 
    }
 
    * {
