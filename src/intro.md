@@ -56,5 +56,6 @@ Bash is the default terminal in Ubuntu and OSX
 * Git internals
 * (Too) dangerous commands
 * CI / Dev Ops
+* Licensing and legal stuff
 
 But please check out recommended reading!
