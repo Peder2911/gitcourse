@@ -16,8 +16,9 @@ git init
 <description>This creates a git repository</description>
 
 <info>
-   What this command does is create a folder called ".git" in your directory. This
-   folder contains everything git uses to function.
+   What this command does is create a folder called ".git" in your directory,
+   with lots of stuff in it. This folder contains everything git uses to
+   function (you don't need to worry about it).
 </info>
 
 ## Your favorite command:
@@ -40,7 +41,7 @@ echo "print('hello world')" > main.py
    This creates a basic python script
 </description>
 
-Status now tells you that you have an untracked file.
+git status now tells you that you have an untracked file.
 
 ## Adding a file
 

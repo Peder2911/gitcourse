@@ -1,7 +1,46 @@
 
-## Git's "killer app" 
+## Branches
 
-Branches are a big deal!
+,,,graph
+digraph G {
+   node[shape=box]
+   rankdir=LR;
+   nodesep=1.5;
+   subgraph cluster_0 {
+      label = "Main";
+
+      master_1 -> master_2 -> master_3 -> master_4 -> master_5 -> master_6 -> master_7;
+      color="#ddd0d0";
+      style=filled;
+   }
+
+   subgraph cluster_1 {
+      label = "Feature";
+
+      feature_1 -> feature_2 -> feature_3;
+
+      color="#d0ddd0";
+      style=filled;
+   }
+
+   subgraph cluster_2 {
+      label = "Idea";
+
+      idea_1 -> idea_2;
+
+      color="#d0d0dd";
+      style=filled;
+   }   
+
+   feature_1 -> idea_1;
+   idea_2 -> feature_3;
+   master_2 -> feature_1;
+   feature_3 -> master_6;
+}
+,,,
+
+
+## Git's "killer app" 
 
 * Elegant management of concurrent development 
 * Trying out features 
@@ -10,8 +49,8 @@ Branches are a big deal!
 <term>
    <h>Branch</h>
    In the context of git, a branch is a line of development. Think of it as a
-   highway-lane: Everything moves forward, some lanes diverge and might go
-   somewhere else, while most lanes eventually merge back into a single lane.
+   highway-lane: Everything moves forward, some lanes diverge, but every lane
+   is headed in the same direction.
 </term>
 
 ---
@@ -41,8 +80,14 @@ To create a branch, run:
 git branch [name]
 ```
 
-Running git branch without the name should now show two entries. Note that your
-branch does not currently have an asterisk. This means you are still on master.
+To list all branches, run:
+
+```
+git branch
+```
+
+Note that your new branch does not currently have an asterisk. This means you
+are still on master.
 
 ---
 
@@ -55,6 +100,39 @@ git checkout [name]
 ```
 
 Now git branch shows your new branch with the asterisk! Any new commits you make will be made to your new branch.
+
+,,,graph{150,600}
+digraph G {
+   rankdir=LR;
+   node[shape=box];
+
+   past[label="..."];
+   future_1[label="..."];
+   future_2[label="..."];
+
+   subgraph cluster_0 {
+      label = "*your_branch";
+
+      branch[label="new commit"]
+      branch->future_2;
+
+      color="#d0ddd0";
+      style=filled;
+   } 
+
+   subgraph cluster_1 {
+      label = "master";
+      master[label="current commit"];
+      color="#ddd0d0";
+      style=filled;
+      master->future_1
+   }
+
+   past->master;
+   master-> branch;
+}
+,,,
+
 
 ---
 
@@ -110,18 +188,52 @@ echo "print('😎')" >> main.py
 git commit -m "Added a cool print" 
 ```
 
-Now your feature is added to a branch! Check out the log:
+Now your feature is added to a branch: 
+
+,,,graph{200,600}
+digraph G {
+   node[shape=box];
+   rankdir=LR;
+
+   past[label="..."]
+   future_1[label="..."]
+   future_2[label="..."]
+
+   subgraph cluster_1 {
+      main->future_1;
+      label="master";
+      style=filled;
+      color="#ddd0d0";
+   }
+
+   subgraph cluster_0 {
+      feature->future_2;
+      label="*my_feature";
+      style=filled;
+      color="#d0ddd0";
+   }
+
+   past->main
+   main->feature
+}
+,,,
+
+---
+
+## Log
+
+The git log command is helpful for figuring out commit histories
+
 ```
 git log --oneline --all
 ```
 <info>The --all flag lets you see all branches, not just the one you are currently on!</info>
+<info>The --graph flag lets you sort-of see the commit history as a graph! There are also tools for making nicer graphs if you need one.</info>
 Note that master is now still at the previous commit, while your branch is one commit ahead.
 
 ---
 
 ## Local merging
-
-Merging coolprint back into master can be done locally (note that when working on github, merges are instead done in pull requests!)
 
 To merge your feature branch, run:
 ```
@@ -130,7 +242,36 @@ git checkout master
 # Merge the feature
 git merge my_feature
 ```
-Since there are no conflicts, this just brings master "up to speed" with your work. Check the log!
+Since there are no conflicts, this just brings master "up to speed" with your
+work:
+
+,,,graph{150,600}
+digraph G {
+   node[shape=box];
+   rankdir=LR;
+
+   past[label="..."]
+   future[label="..."]
+
+   subgraph cluster_1 {
+      main->merged->future;
+      label="master";
+      style=filled;
+      color="#ddd0d0";
+   }
+
+   subgraph cluster_0 {
+      feature;
+      style=filled;
+      color="#d0ddd0";
+   }
+
+   past->main
+   main->feature
+   feature->merged
+}
+
+,,,
 
 ---
 
@@ -152,13 +293,60 @@ Now master contains the commit introduced in the feature branch!
 
 ## Merge conflicts
 
-Let's try to create some conflict, and then resolve it.
+Conflicts occur when branches contain different versions of the same file that
+"overlap".  Let's try to create some conflict, and then resolve it.
 <term>
    <h>Conflict</h>
    In git terminology, a conflict is defined as the merging of two different
    versions of the same file. Conflicts can get quite intense, and difficult to
    resolve.
 </term>
+
+,,,graph{200,600}
+digraph {
+   compound=true;
+   node [shape=box];
+   edge[arrowhead=none]
+   
+   subgraph cluster_0{
+      {
+         node[
+            shape=record, 
+            label="<l>|<r>" 
+            margin=0 width=3 
+            height=.1 
+            style=filled 
+            color="#b0b0b0"
+            ];
+
+         graph[
+            nodesep=.1 
+            pad=.2 
+            ranksep=2
+            ];
+
+         b[color="#fdc0c0"]
+         d[color="#b0ddb0"]
+         f[color="#b0ddb0"]
+         a[color="#b0ddb0"]
+
+         a->b->c->d->e->f[style=invis];
+         rankdir=TB;
+      }
+   }
+   b1[label="Branch 1"]
+   b2[label="Branch 2"]
+
+   b1 -> a[style=invis; lhead=cluster_0;]
+   b2 -> f[style=invis; lhead=cluster_0;]
+
+   b1 -> b:r;
+   b1 -> d:r;
+   b1 -> f:r;
+   b:l -> b2 
+   a:l -> b2;
+}
+,,,
 
 ## Branching off
 
@@ -185,10 +373,6 @@ Now the file main.py exists in two concurrent versions! Check out:
 ```
 git log --all --oneline --graph
 ```
-
-<info>
-   The "graph" flag lets you see branches sort-of graphically, in the terminal!
-</info>
 
 You can also diff the two branches, to figure out what their differences are:
 

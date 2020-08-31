@@ -12,6 +12,11 @@ fixTitle()
    echo "$(titleCase $*)" | sed 's/_/ /g'
 }
 
+renderGraphs()
+{
+   jk
+}
+
 for f in src/*
    do
       name="$(echo $f | cut -f 2 -d '/' | cut -f 1 -d '.')"
@@ -19,11 +24,12 @@ for f in src/*
       title="$(fixTitle $name)"
 
       echo "$f -> $out"
-      pandoc -s $f -t dzslides -o "$out"\
-         --self-contained\
-         --template "template/my.dzslides"\
-         --metadata title="$title"\
-         --metadata date="$(date --iso-8601)"\
-         --metadata author="Peder G. Landsverk"
+      cat $f | python scripts/renderGraphs.py |\
+         pandoc -t dzslides -o "$out"\
+            --self-contained\
+            --template "template/my.dzslides"\
+            --metadata title="$title"\
+            --metadata date="$(date --iso-8601)"\
+            --metadata author="Peder G. Landsverk"
    done
 echo Done!🎉

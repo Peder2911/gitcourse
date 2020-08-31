@@ -182,6 +182,14 @@ $else$
       content: "📝 ";
    }
 
+   .graphcontainer {
+      display: grid;
+      justify-content: center;
+      height: 100%;
+      width: 100%;
+      padding-top:10px;
+   }
+
 </style>
 
 $endif$
